@@ -3,7 +3,7 @@ from turtle import title
 from django.db import models
 
 # Create your models here.
-class Books(models.Model):
+class Book(models.Model):
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     genre = models.CharField(max_length=255)
