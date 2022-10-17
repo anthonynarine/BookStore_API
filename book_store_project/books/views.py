@@ -23,6 +23,7 @@ def books_list(request):
             
 @api_view(["GET","PUT", "DELETE"])
 def book_detail(request, pk):
+    """"function to GET by ID, Update and Delete using id"""
     book = get_object_or_404(Book, pk=pk) #available GET and PUT request not need to repeat
     if request.method == "GET":   
         serializer = BookSerializer(book);

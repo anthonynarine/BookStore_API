@@ -1,0 +1,124 @@
+{
+	"info": {
+		"_postman_id": "983e04cb-0538-41c3-a2a8-f44416fa3f99",
+		"name": "Books_API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23868442"
+	},
+	"item": [
+		{
+			"name": "Get_All_Books",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "~ CREATING POST FUNCTIONALITY ~",
+					"host": [
+						"~ CREATING POST FUNCTIONALITY ~"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add_Book",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Dune\",\r\n    \"author\": \"Frank Herbert\",\r\n    \"genre\": \"Fiction\",\r\n    \"price\": 12.1,\r\n    \"year_published\": 1965,\r\n    \"quantity\": 5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/books/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"books",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get_Bood_By_ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/books/10/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"books",
+						"10",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update_Book",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n    \"title\": \"The SUBTLE ART OF NOT GIVING A #@%!\",\r\n    \"author\": \"Mark Manson\",\r\n    \"genre\": \"Self Help\",\r\n    \"price\": 10.0,\r\n    \"year_published\": 2016,\r\n    \"quantity\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/books/5/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"books",
+						"5",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete_Book",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
