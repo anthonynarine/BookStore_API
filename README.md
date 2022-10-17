@@ -191,12 +191,14 @@ This is able to happen becuase neiter our GET all or POST new object request wil
 We will be doing this through HTTP request and not through Django admin this will 
 allow anyone to create new Book objects and not just the developer
 
-@api_view(["GET", "POST"])
-def books_list(request):    
-    if request.method == "GET":
-        books = Book.objects.all()
-        serializer = BookSerializer(books, many=True)
+@api_view(["GET"])
+def book_detail(request, pk):
+    try:
+        book = Book.objects.get(pk=pk)
+        serializer = BookSerializer(book);
         return Response(serializer.data)
+    except Book.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND);
 
     ~ FUNCTIONALITY FOR POST BEWLOW
 
@@ -215,4 +217,23 @@ def books_list(request):
 
 
 
+    ~ Get BY ID EendPoint functionality ~
+
+@api_view(["GET"])  
+def book_detail(request, pk):             
+    try:
+        book = Book.objects.get(pk-pk)
+        serializer = BookSerializer (book)
+        return Response(serializer.data)
+    except Book.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND);
+
+ ~ function logic
+     we pass the pk in -> django automatically grabs the url  path we set up  
+     pass it to the appropiate parameter (pk)
+     we then query the car table to get the specific car
+     it there is an exception it means there isn't a car in the database with 
+     that pk
+
+           
 
