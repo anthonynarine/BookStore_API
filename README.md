@@ -235,5 +235,54 @@ def book_detail(request, pk):
      it there is an exception it means there isn't a car in the database with 
      that pk
 
+Refractoring the function above:
+~import
+    from django.shortcuts import get_list_or_404, get_object_or_404
+
+@api_view(["GET"])
+def book_detail(request, pk):
+    book = get_object_or_404(Book, pk=pk)
+    serializer = BookSerializer(book);
+    return Response(serializer.data)
+
+with the functionality that get_list_or_404, get_object_or_404 provides we 
+no longet need the try, except block. We just pass the class name (Book)
+and the idintifer we want back (pk)
+
+
+
+        ~ CREATING UPDATE FUNCTIONALITY ~+
+    ~ since update will require only a pk from the back end we can add the functionality to our 
+      the book_detail() function. 
+
+     1. we need to the ojbect pk from the database.
+         book = get_object_or_404(Book, pk=pk) This gets the object or send a 404 error
+
+     2. we have to serialze the object  
+        1st by pasing in the object (book)
+
+        2nd we pass in the data and set it = to request.data
+        this take a look at the imcoming data compare it to the object data
+        and updates it in the database. 
+
+        serializer = BookSerializer(book, data=request.data);
+
+    3. serializer.is_valid(raise_exception=True)
+    4. serializer.save()   #this updates our object (book) in the database
+    5  return Response(serializer.data)
+
+~function complete with query for PUT and upade functionality
+
+    @api_view(["GET","PUT"])
+    def book_detail(request, pk):
+    book = get_object_or_404(Book, pk=pk) #available GET and PUT request not need to repeat
+    if request.method == "GET":   
+        serializer = BookSerializer(book);
+        return Response(serializer.data)
+    elif request.method == "PUT":
+        serializer = BookSerializer(book, data=request.data)
+        serializer.save() #this updates our object (book) in the database
+        return Response(serializer.data)
+
            
 

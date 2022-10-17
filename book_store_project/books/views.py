@@ -1,4 +1,4 @@
-import re
+from django.shortcuts import get_list_or_404, get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -21,16 +21,18 @@ def books_list(request):
         serializer.save()
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
-@api_view(["GET"])
+@api_view(["GET","PUT"])
 def book_detail(request, pk):
-    try:
-        book = Book.objects.get(pk=pk)
+    book = get_object_or_404(Book, pk=pk) #available GET and PUT request not need to repeat
+    if request.method == "GET":   
         serializer = BookSerializer(book);
         return Response(serializer.data)
-    except Book.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND);
+    elif request.method == "PUT":
+        serializer = BookSerializer(book, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save() #this updates our object (book) in the database
+        return Response(serializer.data)
         
-           
-           
+        
 
         
