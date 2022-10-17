@@ -57,6 +57,7 @@ git commits will not have user info and secret keys.
 
 
 Creating App Serializers  
+    ~ helps convert JSON into pyhton objects and python objects into JSON
 
 1. in app folder create file serializer.py
 
@@ -73,6 +74,46 @@ Creating App Serializers
         class Meta:
             model = Book
             fields = ["id", "title", "author", "genre", "price", "year_published", "quantity"]
+
+
+
+
+CREATING VIEWS FUNCTION
+    1. in view.py 
+        Create GET all function 
+
+ ~ imports needed       from rest_framework.decorators import api_view
+                        from rest_framework.response import Response
+
+        @api_view(["GET"])
+        def books_list(request):
+            """function to get all objects"""
+            
+            return Response("ok")
+
+    2. Create urls.py file (in app folder)
+
+ ~ imports needed    from django.urls import path
+                     from . import views
+
+            urlpatterns = [                               ~standard syntax
+                path("books/", views.books_list)
+            ]
+
+    3. Update project settings URL
+            from django.urls import path, include
+
+        urlpatterns = [
+            path("admin/", admin.site.urls),
+            path("api/books/", include("books.urls")),
+        ]
+ 
+        ** we will need to remove book in our app URLs file to
+        ** to avoid http://127.0.0.1:8000/api/books/books/    request
+        ** remoing book/ from our app urls file will bring our search to
+        ** http://127.0.0.1:8000/api/books/
+
+
 
 
 Next ADMIN SETTING.  
@@ -101,3 +142,5 @@ Admin center setup.
     
     5. in admin.py
        admin.site.register(Car) #the model is passed in 
+
+
