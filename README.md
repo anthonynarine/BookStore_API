@@ -13,8 +13,6 @@ Linking our project to to mysqlclient
     This new file is already marked in gitignore so whatever 
     is in that file will not be pushed. 
 
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
     "default": {
@@ -84,12 +82,31 @@ CREATING VIEWS FUNCTION
 
  ~ imports needed       from rest_framework.decorators import api_view
                         from rest_framework.response import Response
+                        from .serializer import BookSerializer
+                        from .models import Book
 
         @api_view(["GET"])
         def books_list(request):
             """function to get all objects"""
             
-            return Response("ok")
+            books = Book.object.all() 
+        ~ we now need to use the serializer to convert the python data to json ~   
+
+        ~ conventional use of seiralizer ~
+            serializer = BookSerializer(books, many=True)
+
+            ~ books in will take the python data 
+            ~ and convert it to Json data
+            ~ many=True this tells the serializer that it will
+            ~ potentially be multiple books that needs to be serialized
+
+            return Response(serializer.data) 
+
+            ~ all the books data will be stored on a variable called data 
+            on BookSerializer() so we send our response as serializer.data ~
+
+
+
 
     2. Create urls.py file (in app folder)
 
@@ -101,7 +118,8 @@ CREATING VIEWS FUNCTION
             ]
 
     3. Update project settings URL
-            from django.urls import path, include
+
+   ~import needed    from django.urls import path, include
 
         urlpatterns = [
             path("admin/", admin.site.urls),
@@ -116,14 +134,16 @@ CREATING VIEWS FUNCTION
 
 
 
-Next ADMIN SETTING.  
+
+
+Next ADMIN SETTING  ~ Will help to seed our data ~
 
 Admin center setup. 
     1. python manage.py createsuperuser
 
     2. fill out prompts.
-        user name
-        password (you will not get to see the pw)
+        user name admin
+        password (you will not get to see the pw) ~root
         email 
 
     check mysql workbench auth_user execute query
@@ -131,16 +151,68 @@ Admin center setup.
 
     3. python manage.py runserver
        follow link
-       admin
+       add /admin to link
        log on using username and pw
        users and groups shold be available for edits.
 
-    4. registering the model with our Django admin.py
-       app folder -> admin.py -> import appmodel...ex below 
-
-       from .models import Car
     
-    5. in admin.py
-       admin.site.register(Car) #the model is passed in 
+    
+    REGISTERING our Book model
+    1. app folder -> admin.py -> import appmodel...ex below 
+
+       from .models import Book
+    
+    2. in admin.py
+       admin.site.register(Book) #the model is passed in 
+
+    This allows us to view and seed data through our django admin page. 
+    ~ refresh server and we will see books on our page!
+
+
+            ~ NOTE ~
+        any price attribute will default as a str in django
+        it should be converted to a int
+To Convert:
+            1. got to project settings.py
+            2. create anywere in this file (as long as it's not in somethign else :)
+                
+                REST_FRAMEWORK = {
+                    "COERCE_DECIMAL_TO_STRING": False
+                }
+
+
+
+
+        ~ CREATING POST FUNCTIONALITY ~
+
+Currently our books_list only takes "GET" requests. Lets add "POST" request to the list. 
+This is able to happen becuase neiter our GET all or POST new object request will require pk (id)
+
+We will be doing this through HTTP request and not through Django admin this will 
+allow anyone to create new Book objects and not just the developer
+
+@api_view(["GET", "POST"])
+def books_list(request):    
+    if request.method == "GET":
+        books = Book.objects.all()
+        serializer = BookSerializer(books, many=True)
+        return Response(serializer.data)
+
+    ~ FUNCTIONALITY FOR POST BEWLOW
+
+    elif request.method == "POST":
+        serializer = BookSerializer(data=request.data)
+ """ here we'll be accessing the request (function parameter) then any data on that incoming request. 
+
+        serializer.is_valid(raise_exception=True) 
+        serializer.save()
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        The serializer has built in capability to raise exceptions so we don't need 
+        seperate if else statements. 
+            
+     
+
+
 
 

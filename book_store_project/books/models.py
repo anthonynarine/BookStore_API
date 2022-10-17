@@ -6,7 +6,7 @@ class Book(models.Model):
     author = models.CharField(max_length=255)
     genre = models.CharField(max_length=255)
     year_published = models.IntegerField(null=True)
-    price = models.DecimalField(max_digits=3, decimal_places=2)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.IntegerField()
     
     
