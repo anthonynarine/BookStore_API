@@ -13,8 +13,6 @@ Linking our project to to mysqlclient
     This new file is already marked in gitignore so whatever 
     is in that file will not be pushed. 
 
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
     "default": {
