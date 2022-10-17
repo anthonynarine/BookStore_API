@@ -251,7 +251,8 @@ and the idintifer we want back (pk)
 
 
 
-        ~ CREATING UPDATE FUNCTIONALITY ~+
+        ~ CREATING UPDATE FUNCTIONALITY ~
+
     ~ since update will require only a pk from the back end we can add the functionality to our 
       the book_detail() function. 
 
@@ -283,6 +284,27 @@ and the idintifer we want back (pk)
         serializer = BookSerializer(book, data=request.data)
         serializer.save() #this updates our object (book) in the database
         return Response(serializer.data)
+
+
+        ~ CREATING Delete FUNCTIONALITY ~
+
+ ~ since DELETE only needs a pk from the back end we can add the functionality to our 
+      the book_detail() function along with the GET by ID and Update requests~  
+
+@api_view(["GET","PUT", "DELETE"])     ~ DELETE ADDED~ 
+    book = get_object_or_404(Book, pk=pk) #available GET and PUT request not need to repeat
+    if request.method == "GET":   
+        serializer = BookSerializer(book);
+        return Response(serializer.data)
+    elif request.method == "PUT":
+        serializer = BookSerializer(book, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save() #this updates our object (book) in the database
+        return Response(serializer.data)
+    elif request.method == "DELETE":     ~ elif statement added ~ 
+        book.delete()                    ~ delete functionality added ~   
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
            
 

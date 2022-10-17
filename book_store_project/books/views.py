@@ -21,7 +21,7 @@ def books_list(request):
         serializer.save()
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
-@api_view(["GET","PUT"])
+@api_view(["GET","PUT", "DELETE"])
 def book_detail(request, pk):
     book = get_object_or_404(Book, pk=pk) #available GET and PUT request not need to repeat
     if request.method == "GET":   
@@ -32,6 +32,9 @@ def book_detail(request, pk):
         serializer.is_valid(raise_exception=True)
         serializer.save() #this updates our object (book) in the database
         return Response(serializer.data)
+    elif request.method == "DELETE":
+        book.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
         
         
 
