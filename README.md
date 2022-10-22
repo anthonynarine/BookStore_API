@@ -95,7 +95,7 @@ CREATING VIEWS FUNCTION
         ~ conventional use of seiralizer ~
             serializer = BookSerializer(books, many=True)
 
-            ~ books in will take the python data 
+            ~ books in will take in the python data 
             ~ and convert it to Json data
             ~ many=True this tells the serializer that it will
             ~ potentially be multiple books that needs to be serialized
